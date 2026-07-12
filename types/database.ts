@@ -64,3 +64,29 @@ export type PedidoDetalle = {
   subtotal: number;
   created_at: string;
 };
+
+export type PedidoItem = {
+  producto_id: string;
+  nombre_producto: string;
+  precio_unitario: number;
+  cantidad: number;
+};
+
+export type PedidoFormData = {
+  nombre_cliente: string;
+  telefono: string;
+  correo?: string;
+  direccion?: string;
+  comentarios?: string;
+};
+
+export type CrearPedidoInput = {
+  cliente: PedidoFormData;
+  items: PedidoItem[];
+};
+
+export type CrearPedidoResult = {
+  id: number;
+  codigo_pedido: string;
+  total_estimado: number;
+};

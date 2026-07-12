@@ -36,6 +36,10 @@ export type Producto = {
   updated_at: string;
 };
 
+export type ProductoConCategoria = Producto & {
+  categorias?: Pick<Categoria, "id" | "nombre"> | null;
+};
+
 export type Pedido = {
   id: string;
   codigo_pedido: string | null;

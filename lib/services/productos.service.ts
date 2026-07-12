@@ -1,7 +1,11 @@
 import { supabase } from "@/lib/supabase/client";
-import type { Producto } from "@/types/database";
+import type { Categoria, ProductoConCategoria } from "@/types/database";
 
-export async function getProductosActivos(): Promise<Producto[]> {
+type ProductoSupabase = Omit<ProductoConCategoria, "categorias"> & {
+  categorias?: Pick<Categoria, "id" | "nombre"> | Pick<Categoria, "id" | "nombre">[] | null;
+};
+
+export async function getProductosActivos(): Promise<ProductoConCategoria[]> {
   const { data, error } = await supabase
     .from("productos")
     .select(
@@ -17,7 +21,11 @@ export async function getProductosActivos(): Promise<Producto[]> {
         activo,
         destacado,
         created_at,
-        updated_at
+        updated_at,
+        categorias (
+          id,
+          nombre
+        )
       `,
     )
     .eq("activo", true)
@@ -27,5 +35,12 @@ export async function getProductosActivos(): Promise<Producto[]> {
     throw new Error(`Error al consultar productos activos: ${error.message}`);
   }
 
-  return (data ?? []) as Producto[];
+  const productos = (data ?? []) as unknown as ProductoSupabase[];
+
+  return productos.map((producto) => ({
+    ...producto,
+    categorias: Array.isArray(producto.categorias)
+      ? (producto.categorias[0] ?? null)
+      : (producto.categorias ?? null),
+  }));
 }

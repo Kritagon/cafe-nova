@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { getProductosActivos } from "@/lib/services/productos.service";
 
 export default async function Home() {
@@ -21,6 +23,12 @@ export default async function Home() {
             productos seleccionados y una experiencia digital sencilla para
             explorar el catalogo antes de hacer un pedido.
           </p>
+          <Link
+            href="/catalogo"
+            className="mt-8 inline-flex w-fit rounded-full bg-amber-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-amber-800"
+          >
+            Ver catalogo
+          </Link>
         </div>
       </section>
 

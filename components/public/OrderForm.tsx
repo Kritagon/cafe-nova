@@ -20,6 +20,9 @@ const initialFormData: PedidoFormData = {
   comentarios: "",
 };
 
+const telefonoRegex = /^\d{8}$/;
+const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export function OrderForm({
   disabled = false,
   isSubmitting = false,
@@ -35,16 +38,23 @@ export function OrderForm({
 
   function validate() {
     const nextErrors: FormErrors = {};
+    const nombreCliente = formData.nombre_cliente.trim();
+    const telefono = formData.telefono.trim();
+    const correo = formData.correo?.trim() ?? "";
 
-    if (!formData.nombre_cliente.trim()) {
+    if (!nombreCliente) {
       nextErrors.nombre_cliente = "El nombre es obligatorio.";
+    } else if (nombreCliente.length < 2) {
+      nextErrors.nombre_cliente = "El nombre debe tener al menos 2 caracteres.";
     }
 
-    if (!formData.telefono.trim()) {
+    if (!telefono) {
       nextErrors.telefono = "El telefono es obligatorio.";
+    } else if (!telefonoRegex.test(telefono)) {
+      nextErrors.telefono = "El telefono debe tener exactamente 8 digitos.";
     }
 
-    if (formData.correo && !formData.correo.includes("@")) {
+    if (correo && !correoRegex.test(correo)) {
       nextErrors.correo = "Ingresa un correo valido o deja el campo vacio.";
     }
 
@@ -101,8 +111,13 @@ export function OrderForm({
           Telefono
           <input
             type="tel"
+            inputMode="numeric"
+            maxLength={8}
+            pattern="[0-9]{8}"
             value={formData.telefono}
-            onChange={(event) => updateField("telefono", event.target.value)}
+            onChange={(event) =>
+              updateField("telefono", event.target.value.replace(/\D/g, ""))
+            }
             className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
           />
           {errors.telefono ? (

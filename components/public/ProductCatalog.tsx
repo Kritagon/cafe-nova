@@ -119,6 +119,20 @@ export function ProductCatalog({
         onSelectCategory={setSelectedCategoryId}
       />
 
+      <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-[0.22em] text-amber-800">
+            Productos disponibles
+          </p>
+          <h2 className="mt-2 text-3xl font-black tracking-tight">
+            Cafe para cada momento
+          </h2>
+        </div>
+        <p className="text-sm font-medium text-stone-600">
+          {productosFiltrados.length} productos encontrados
+        </p>
+      </div>
+
       {productosFiltrados.length > 0 ? (
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {productosFiltrados.map((producto) => (
@@ -135,13 +149,21 @@ export function ProductCatalog({
           ))}
         </div>
       ) : (
-        <div className="rounded-lg border border-dashed border-stone-300 bg-white p-8 text-center text-stone-600">
-          No hay productos activos en esta categoria por ahora.
+        <div className="rounded-lg border border-dashed border-amber-900/20 bg-white p-8 text-center text-stone-600 shadow-sm">
+          <h3 className="text-lg font-semibold text-stone-950">
+            No hay productos en esta categoria
+          </h3>
+          <p className="mt-2 text-sm">
+            Prueba con otro filtro o vuelve a revisar el catalogo completo.
+          </p>
         </div>
       )}
 
       {showOrderSection ? (
-        <section id="pedido" className="grid gap-6 pt-6 lg:grid-cols-2">
+        <section
+          id="pedido"
+          className="grid gap-6 rounded-[1.75rem] border border-amber-900/10 bg-white/80 p-4 shadow-xl shadow-amber-950/5 lg:grid-cols-2 lg:p-6"
+        >
           <OrderSummary
             items={pedidoItems}
             onChangeQuantity={cambiarCantidad}

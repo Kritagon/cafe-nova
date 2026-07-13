@@ -79,10 +79,10 @@ export function OrderForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-lg border border-stone-200 bg-white p-5 shadow-sm"
+      className="rounded-[1.25rem] border border-amber-900/10 bg-white p-5 shadow-sm"
     >
       <div>
-        <h2 className="text-2xl font-bold tracking-tight">Datos del cliente</h2>
+        <h2 className="text-2xl font-black tracking-tight">Datos del cliente</h2>
         <p className="mt-2 text-sm text-stone-600">
           Usaremos estos datos para confirmar disponibilidad, precio final y
           entrega.
@@ -98,7 +98,7 @@ export function OrderForm({
             onChange={(event) =>
               updateField("nombre_cliente", event.target.value)
             }
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-[#fffaf2] px-3 py-2 text-sm font-normal text-stone-950 outline-none focus:border-amber-800 focus:bg-white"
           />
           {errors.nombre_cliente ? (
             <span className="block text-xs text-red-600">
@@ -118,7 +118,7 @@ export function OrderForm({
             onChange={(event) =>
               updateField("telefono", event.target.value.replace(/\D/g, ""))
             }
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-[#fffaf2] px-3 py-2 text-sm font-normal text-stone-950 outline-none focus:border-amber-800 focus:bg-white"
           />
           {errors.telefono ? (
             <span className="block text-xs text-red-600">
@@ -133,7 +133,7 @@ export function OrderForm({
             type="email"
             value={formData.correo}
             onChange={(event) => updateField("correo", event.target.value)}
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-[#fffaf2] px-3 py-2 text-sm font-normal text-stone-950 outline-none focus:border-amber-800 focus:bg-white"
           />
           {errors.correo ? (
             <span className="block text-xs text-red-600">{errors.correo}</span>
@@ -146,7 +146,7 @@ export function OrderForm({
             type="text"
             value={formData.direccion}
             onChange={(event) => updateField("direccion", event.target.value)}
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-[#fffaf2] px-3 py-2 text-sm font-normal text-stone-950 outline-none focus:border-amber-800 focus:bg-white"
           />
         </label>
 
@@ -156,7 +156,7 @@ export function OrderForm({
             value={formData.comentarios}
             onChange={(event) => updateField("comentarios", event.target.value)}
             rows={4}
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-[#fffaf2] px-3 py-2 text-sm font-normal text-stone-950 outline-none focus:border-amber-800 focus:bg-white"
           />
         </label>
       </div>
@@ -164,7 +164,7 @@ export function OrderForm({
       <button
         type="submit"
         disabled={disabled || isSubmitting}
-        className="mt-6 w-full rounded-full bg-amber-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-amber-800 disabled:cursor-not-allowed disabled:bg-stone-300"
+        className="mt-6 w-full rounded-full bg-amber-800 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-amber-900 disabled:cursor-not-allowed disabled:bg-stone-300"
       >
         {isSubmitting ? "Enviando pedido..." : "Enviar solicitud de pedido"}
       </button>

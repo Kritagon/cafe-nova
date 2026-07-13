@@ -49,6 +49,47 @@ export async function getProductosActivos(): Promise<ProductoConCategoria[]> {
   }));
 }
 
+export async function getProductosDestacados(): Promise<ProductoConCategoria[]> {
+  const { data, error } = await supabase
+    .from("productos")
+    .select(
+      `
+        id,
+        categoria_id,
+        nombre,
+        descripcion,
+        precio,
+        presentacion,
+        tipo_cafe,
+        imagen_url,
+        activo,
+        destacado,
+        created_at,
+        updated_at,
+        categorias (
+          id,
+          nombre
+        )
+      `,
+    )
+    .eq("activo", true)
+    .eq("destacado", true)
+    .order("nombre", { ascending: true });
+
+  if (error) {
+    throw new Error(`Error al consultar productos destacados: ${error.message}`);
+  }
+
+  const productos = (data ?? []) as unknown as ProductoSupabase[];
+
+  return productos.map((producto) => ({
+    ...producto,
+    categorias: Array.isArray(producto.categorias)
+      ? (producto.categorias[0] ?? null)
+      : (producto.categorias ?? null),
+  }));
+}
+
 export async function getProductosAdmin(): Promise<ProductoConCategoria[]> {
   const { data, error } = await supabase
     .from("productos")

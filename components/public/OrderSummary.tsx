@@ -17,9 +17,9 @@ export function OrderSummary({
   );
 
   return (
-    <section className="rounded-lg border border-stone-200 bg-white p-5 shadow-sm">
+    <section className="rounded-[1.25rem] border border-amber-900/10 bg-white p-5 shadow-sm">
       <div>
-        <h2 className="text-2xl font-bold tracking-tight">
+        <h2 className="text-2xl font-black tracking-tight">
           Resumen del pedido
         </h2>
         <p className="mt-2 text-sm text-stone-600">
@@ -28,7 +28,7 @@ export function OrderSummary({
       </div>
 
       {items.length === 0 ? (
-        <div className="mt-6 rounded-lg border border-dashed border-stone-300 bg-stone-50 p-6 text-center text-sm text-stone-600">
+        <div className="mt-6 rounded-lg border border-dashed border-amber-900/20 bg-[#fff8ec] p-6 text-center text-sm text-stone-600">
           Aun no has agregado productos al pedido.
         </div>
       ) : (
@@ -68,12 +68,12 @@ export function OrderSummary({
                         Number(event.target.value),
                       )
                     }
-                    className="h-10 w-20 rounded-md border border-stone-300 px-3 text-sm"
+                    className="h-10 w-20 rounded-md border border-stone-300 bg-[#fffaf2] px-3 text-sm outline-none focus:border-amber-800"
                   />
                   <button
                     type="button"
                     onClick={() => onRemoveItem(item.producto_id)}
-                    className="h-10 rounded-md border border-stone-300 px-3 text-sm font-medium text-stone-700 hover:border-red-300 hover:text-red-700"
+                    className="h-10 rounded-md border border-stone-300 bg-white px-3 text-sm font-medium text-stone-700 hover:border-red-300 hover:text-red-700"
                   >
                     Eliminar
                   </button>
@@ -82,7 +82,7 @@ export function OrderSummary({
             );
           })}
 
-          <div className="flex items-center justify-between rounded-lg bg-stone-50 p-4">
+          <div className="flex items-center justify-between rounded-[1rem] bg-[#fff4df] p-4">
             <span className="font-semibold text-stone-700">
               Total estimado
             </span>

@@ -14,36 +14,47 @@ export function CategoryFilter({
   onSelectCategory,
 }: CategoryFilterProps) {
   const buttonBase =
-    "rounded-full border px-4 py-2 text-sm font-medium transition-colors";
+    "rounded-full border px-4 py-2 text-sm font-semibold transition-colors";
 
   return (
-    <div className="flex flex-wrap gap-2" aria-label="Filtrar por categoria">
-      <button
-        type="button"
-        onClick={() => onSelectCategory("todos")}
-        className={`${buttonBase} ${
-          selectedCategoryId === "todos"
-            ? "border-amber-700 bg-amber-700 text-white"
-            : "border-stone-200 bg-white text-stone-700 hover:border-amber-700"
-        }`}
-      >
-        Todos
-      </button>
+    <section className="rounded-[1.25rem] border border-amber-900/10 bg-white p-6 shadow-sm">
+      <div className="mb-4 flex flex-col gap-1">
+        <p className="text-sm font-bold uppercase tracking-[0.22em] text-amber-800">
+          Filtros
+        </p>
+        <h2 className="text-2xl font-black tracking-tight">
+          Explora por categoria
+        </h2>
+      </div>
 
-      {categorias.map((categoria) => (
+      <div className="flex flex-wrap gap-2" aria-label="Filtrar por categoria">
         <button
-          key={categoria.id}
           type="button"
-          onClick={() => onSelectCategory(categoria.id)}
+          onClick={() => onSelectCategory("todos")}
           className={`${buttonBase} ${
-            selectedCategoryId === categoria.id
-              ? "border-amber-700 bg-amber-700 text-white"
-              : "border-stone-200 bg-white text-stone-700 hover:border-amber-700"
+            selectedCategoryId === "todos"
+              ? "border-amber-800 bg-amber-800 text-white shadow-sm"
+              : "border-amber-900/10 bg-[#fff8ec] text-stone-700 hover:border-amber-800 hover:bg-amber-50"
           }`}
         >
-          {categoria.nombre}
+          Todos
         </button>
-      ))}
-    </div>
+
+        {categorias.map((categoria) => (
+          <button
+            key={categoria.id}
+            type="button"
+            onClick={() => onSelectCategory(categoria.id)}
+            className={`${buttonBase} ${
+              selectedCategoryId === categoria.id
+                ? "border-amber-800 bg-amber-800 text-white shadow-sm"
+                : "border-amber-900/10 bg-[#fff8ec] text-stone-700 hover:border-amber-800 hover:bg-amber-50"
+            }`}
+          >
+            {categoria.nombre}
+          </button>
+        ))}
+      </div>
+    </section>
   );
 }

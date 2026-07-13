@@ -19,6 +19,12 @@ export type Categoria = {
   updated_at: string;
 };
 
+export type CategoriaFormData = {
+  nombre: string;
+  descripcion: string;
+  activo: boolean;
+};
+
 export type Producto = {
   id: string;
   categoria_id: string | null;

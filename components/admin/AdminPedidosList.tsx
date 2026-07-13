@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 
+import { PedidosFilters } from "@/components/admin/PedidosFilters";
 import {
   actualizarEstadoPedido,
   getPedidosAdmin,
 } from "@/lib/services/pedidos.service";
-import type { PedidoAdmin, PedidoEstado } from "@/types/database";
+import type { PedidoAdmin, PedidoEstado, PedidoFilters } from "@/types/database";
 
 const estadosPedido: PedidoEstado[] = [
   "pendiente",
@@ -18,6 +19,7 @@ const estadosPedido: PedidoEstado[] = [
 
 export function AdminPedidosList() {
   const [pedidos, setPedidos] = useState<PedidoAdmin[]>([]);
+  const [filters, setFilters] = useState<PedidoFilters>({ estado: "todos" });
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [updatingId, setUpdatingId] = useState<number | null>(null);
@@ -27,7 +29,7 @@ export function AdminPedidosList() {
 
     async function loadPedidos() {
       try {
-        const pedidosAdmin = await getPedidosAdmin();
+        const pedidosAdmin = await getPedidosAdmin(filters);
 
         if (isMounted) {
           setPedidos(pedidosAdmin);
@@ -52,7 +54,19 @@ export function AdminPedidosList() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [filters]);
+
+  function handleFilter(nextFilters: PedidoFilters) {
+    setIsLoading(true);
+    setError(null);
+    setFilters(nextFilters);
+  }
+
+  function handleClear() {
+    setIsLoading(true);
+    setError(null);
+    setFilters({ estado: "todos" });
+  }
 
   async function handleEstadoChange(pedidoId: number, estado: PedidoEstado) {
     setUpdatingId(pedidoId);
@@ -86,6 +100,12 @@ export function AdminPedidosList() {
 
   return (
     <div className="space-y-4">
+      <PedidosFilters
+        filters={filters}
+        onFilter={handleFilter}
+        onClear={handleClear}
+      />
+
       {error ? (
         <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
           {error}

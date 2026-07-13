@@ -79,7 +79,9 @@ export type PedidoAdmin = Pick<
   | "estado"
   | "total_estimado"
   | "created_at"
->;
+> & {
+  correo: string | null;
+};
 
 export type PedidoDetalle = {
   id: number;
@@ -117,3 +119,12 @@ export type CrearPedidoResult = {
   codigo_pedido: string;
   total_estimado: number;
 };
+
+export type PedidoFilters = {
+  fechaDesde?: string;
+  fechaHasta?: string;
+  estado?: PedidoEstado | "todos";
+  busqueda?: string;
+};
+
+export type DashboardFilters = Omit<PedidoFilters, "busqueda">;

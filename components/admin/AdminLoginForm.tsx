@@ -35,7 +35,7 @@ export function AdminLoginForm() {
       return;
     }
 
-    router.replace("/admin/pedidos");
+    router.replace("/admin/dashboard");
     router.refresh();
   }
 

@@ -3,6 +3,7 @@ import type {
   CrearPedidoInput,
   CrearPedidoResult,
   PedidoAdmin,
+  PedidoFilters,
   PedidoEstado,
 } from "@/types/database";
 
@@ -57,8 +58,10 @@ export async function crearPedido({
   };
 }
 
-export async function getPedidosAdmin(): Promise<PedidoAdmin[]> {
-  const { data, error } = await supabase
+export async function getPedidosAdmin(
+  filters: PedidoFilters = {},
+): Promise<PedidoAdmin[]> {
+  let query = supabase
     .from("pedidos")
     .select(
       `
@@ -66,18 +69,48 @@ export async function getPedidosAdmin(): Promise<PedidoAdmin[]> {
         codigo_pedido,
         nombre_cliente,
         telefono,
+        correo,
         estado,
         total_estimado,
         created_at
       `,
-    )
-    .order("created_at", { ascending: false });
+    );
+
+  if (filters.fechaDesde) {
+    query = query.gte("created_at", `${filters.fechaDesde}T00:00:00`);
+  }
+
+  if (filters.fechaHasta) {
+    query = query.lte("created_at", `${filters.fechaHasta}T23:59:59`);
+  }
+
+  if (filters.estado && filters.estado !== "todos") {
+    query = query.eq("estado", filters.estado);
+  }
+
+  const { data, error } = await query.order("created_at", {
+    ascending: false,
+  });
 
   if (error) {
     throw new Error(`No se pudieron consultar los pedidos: ${error.message}`);
   }
 
-  return (data ?? []) as PedidoAdmin[];
+  const pedidos = (data ?? []) as PedidoAdmin[];
+  const busqueda = filters.busqueda?.trim().toLowerCase();
+
+  if (!busqueda) {
+    return pedidos;
+  }
+
+  return pedidos.filter((pedido) =>
+    [
+      pedido.codigo_pedido,
+      pedido.nombre_cliente,
+      pedido.telefono,
+      pedido.correo,
+    ].some((value) => value?.toLowerCase().includes(busqueda)),
+  );
 }
 
 export async function actualizarEstadoPedido(

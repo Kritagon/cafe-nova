@@ -32,7 +32,7 @@ export function AdminShell({ children }: AdminShellProps) {
       }
 
       if (data.session && isLoginPage) {
-        router.replace("/admin/pedidos");
+        router.replace("/admin/dashboard");
         return;
       }
 
@@ -76,10 +76,16 @@ export function AdminShell({ children }: AdminShellProps) {
     <div className="min-h-screen bg-stone-50 text-stone-950">
       <header className="border-b border-stone-200 bg-white px-6 py-4">
         <nav className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4">
-          <Link href="/admin/pedidos" className="font-bold">
+          <Link href="/admin/dashboard" className="font-bold">
             Cafe Nova Admin
           </Link>
           <div className="flex items-center gap-3">
+            <Link
+              href="/admin/dashboard"
+              className="text-sm font-medium text-stone-700 hover:text-amber-700"
+            >
+              Dashboard
+            </Link>
             <Link
               href="/admin/pedidos"
               className="text-sm font-medium text-stone-700 hover:text-amber-700"

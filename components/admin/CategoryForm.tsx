@@ -81,36 +81,27 @@ export function CategoryForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-lg border border-stone-200 bg-white p-5 shadow-sm"
+      className="rounded-lg border border-stone-200 bg-white p-6 shadow-sm"
     >
-      <div className="flex items-start justify-between gap-4">
+      <div className="border-b border-stone-100 pb-5">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">
+          <h2 className="text-2xl font-bold tracking-tight text-stone-950">
             {categoria ? "Editar categoria" : "Crear categoria"}
           </h2>
           <p className="mt-2 text-sm text-stone-600">
             Las categorias activas aparecen en el filtro del catalogo publico.
           </p>
         </div>
-        {categoria ? (
-          <button
-            type="button"
-            onClick={onCancelEdit}
-            className="rounded-full border border-stone-300 px-4 py-2 text-sm font-semibold text-stone-700 hover:border-amber-700 hover:text-amber-800"
-          >
-            Nueva
-          </button>
-        ) : null}
       </div>
 
-      <div className="mt-6 space-y-4">
+      <div className="mt-6 space-y-5">
         <label className="space-y-2 text-sm font-medium text-stone-700">
           Nombre
           <input
             type="text"
             value={formData.nombre}
             onChange={(event) => updateField("nombre", event.target.value)}
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-stone-50 px-3 py-2.5 text-sm font-normal text-stone-950 outline-none transition-colors focus:border-amber-700 focus:bg-white"
           />
           {errors.nombre ? (
             <span className="block text-xs text-red-600">{errors.nombre}</span>
@@ -123,11 +114,11 @@ export function CategoryForm({
             value={formData.descripcion}
             onChange={(event) => updateField("descripcion", event.target.value)}
             rows={4}
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-stone-50 px-3 py-2.5 text-sm font-normal text-stone-950 outline-none transition-colors focus:border-amber-700 focus:bg-white"
           />
         </label>
 
-        <label className="flex items-center gap-3 text-sm font-medium text-stone-700">
+        <label className="flex items-center gap-3 rounded-lg border border-stone-200 bg-stone-50 p-4 text-sm font-medium text-stone-700">
           <input
             type="checkbox"
             checked={formData.activo}
@@ -138,17 +129,28 @@ export function CategoryForm({
         </label>
       </div>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="mt-6 w-full rounded-full bg-amber-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-amber-800 disabled:cursor-not-allowed disabled:bg-stone-300"
-      >
-        {isSubmitting
-          ? "Guardando..."
-          : categoria
-            ? "Guardar cambios"
-            : "Crear categoria"}
-      </button>
+      <div className="mt-6 flex flex-col-reverse gap-3 border-t border-stone-100 pt-5 sm:flex-row sm:justify-end">
+        {categoria ? (
+          <button
+            type="button"
+            onClick={onCancelEdit}
+            className="rounded-full border border-stone-300 px-6 py-3 text-sm font-semibold text-stone-700 hover:border-amber-700 hover:text-amber-800"
+          >
+            Cancelar
+          </button>
+        ) : null}
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="rounded-full bg-amber-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-amber-800 disabled:cursor-not-allowed disabled:bg-stone-300"
+        >
+          {isSubmitting
+            ? "Guardando..."
+            : categoria
+              ? "Guardar cambios"
+              : "Crear categoria"}
+        </button>
+      </div>
     </form>
   );
 }

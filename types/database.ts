@@ -64,6 +64,7 @@ export type Pedido = {
   correo: string | null;
   direccion: string | null;
   comentarios: string | null;
+  notas_admin: string | null;
   estado: PedidoEstado;
   total_estimado: number;
   created_at: string;
@@ -92,6 +93,20 @@ export type PedidoDetalle = {
   cantidad: number;
   subtotal: number;
   created_at: string;
+};
+
+export type PedidoDetalleAdmin = Pick<
+  PedidoDetalle,
+  | "id"
+  | "producto_id"
+  | "nombre_producto"
+  | "precio_unitario"
+  | "cantidad"
+  | "subtotal"
+>;
+
+export type PedidoDetalleCompleto = Pedido & {
+  detalle: PedidoDetalleAdmin[];
 };
 
 export type PedidoItem = {

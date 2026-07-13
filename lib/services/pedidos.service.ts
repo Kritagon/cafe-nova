@@ -3,6 +3,7 @@ import type {
   CrearPedidoInput,
   CrearPedidoResult,
   PedidoAdmin,
+  PedidoDetalleCompleto,
   PedidoFilters,
   PedidoEstado,
 } from "@/types/database";
@@ -70,6 +71,9 @@ export async function getPedidosAdmin(
         nombre_cliente,
         telefono,
         correo,
+        direccion,
+        comentarios,
+        notas_admin,
         estado,
         total_estimado,
         created_at
@@ -124,5 +128,78 @@ export async function actualizarEstadoPedido(
 
   if (error) {
     throw new Error(`No se pudo actualizar el pedido: ${error.message}`);
+  }
+}
+
+export async function getPedidoDetalleAdmin(
+  pedidoId: number,
+): Promise<PedidoDetalleCompleto> {
+  const { data: pedido, error: pedidoError } = await supabase
+    .from("pedidos")
+    .select(
+      `
+        id,
+        codigo_pedido,
+        nombre_cliente,
+        telefono,
+        correo,
+        direccion,
+        comentarios,
+        notas_admin,
+        estado,
+        total_estimado,
+        created_at,
+        updated_at
+      `,
+    )
+    .eq("id", pedidoId)
+    .single();
+
+  if (pedidoError || !pedido) {
+    throw new Error(
+      `No se pudo consultar el pedido: ${
+        pedidoError?.message ?? "respuesta vacia de Supabase"
+      }`,
+    );
+  }
+
+  const { data: detalle, error: detalleError } = await supabase
+    .from("pedido_detalle")
+    .select(
+      `
+        id,
+        producto_id,
+        nombre_producto,
+        precio_unitario,
+        cantidad,
+        subtotal
+      `,
+    )
+    .eq("pedido_id", pedidoId)
+    .order("created_at", { ascending: true });
+
+  if (detalleError) {
+    throw new Error(
+      `No se pudo consultar el detalle del pedido: ${detalleError.message}`,
+    );
+  }
+
+  return {
+    ...pedido,
+    detalle: detalle ?? [],
+  } as PedidoDetalleCompleto;
+}
+
+export async function actualizarNotasPedido(
+  pedidoId: number,
+  notasAdmin: string,
+) {
+  const { error } = await supabase
+    .from("pedidos")
+    .update({ notas_admin: notasAdmin.trim() || null })
+    .eq("id", pedidoId);
+
+  if (error) {
+    throw new Error(`No se pudieron guardar las notas: ${error.message}`);
   }
 }

@@ -123,36 +123,27 @@ export function ProductForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-lg border border-stone-200 bg-white p-5 shadow-sm"
+      className="rounded-lg border border-stone-200 bg-white p-6 shadow-sm"
     >
-      <div className="flex items-start justify-between gap-4">
+      <div className="border-b border-stone-100 pb-5">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">
+          <h2 className="text-2xl font-bold tracking-tight text-stone-950">
             {producto ? "Editar producto" : "Crear producto"}
           </h2>
           <p className="mt-2 text-sm text-stone-600">
             Completa la informacion que se mostrara en el catalogo publico.
           </p>
         </div>
-        {producto ? (
-          <button
-            type="button"
-            onClick={onCancelEdit}
-            className="rounded-full border border-stone-300 px-4 py-2 text-sm font-semibold text-stone-700 hover:border-amber-700 hover:text-amber-800"
-          >
-            Nuevo
-          </button>
-        ) : null}
       </div>
 
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
+      <div className="mt-6 grid gap-5 md:grid-cols-2">
         <label className="space-y-2 text-sm font-medium text-stone-700">
           Nombre
           <input
             type="text"
             value={formData.nombre}
             onChange={(event) => updateField("nombre", event.target.value)}
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-stone-50 px-3 py-2.5 text-sm font-normal text-stone-950 outline-none transition-colors focus:border-amber-700 focus:bg-white"
           />
           {errors.nombre ? (
             <span className="block text-xs text-red-600">{errors.nombre}</span>
@@ -164,7 +155,7 @@ export function ProductForm({
           <select
             value={formData.categoria_id}
             onChange={(event) => updateField("categoria_id", event.target.value)}
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-stone-50 px-3 py-2.5 text-sm font-normal text-stone-950 outline-none transition-colors focus:border-amber-700 focus:bg-white"
           >
             <option value="">Selecciona una categoria</option>
             {categorias.map((categoria) => (
@@ -188,7 +179,7 @@ export function ProductForm({
             step="0.01"
             value={formData.precio}
             onChange={(event) => updateField("precio", event.target.value)}
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-stone-50 px-3 py-2.5 text-sm font-normal text-stone-950 outline-none transition-colors focus:border-amber-700 focus:bg-white"
           />
           {errors.precio ? (
             <span className="block text-xs text-red-600">{errors.precio}</span>
@@ -203,7 +194,7 @@ export function ProductForm({
             onChange={(event) =>
               updateField("presentacion", event.target.value)
             }
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-stone-50 px-3 py-2.5 text-sm font-normal text-stone-950 outline-none transition-colors focus:border-amber-700 focus:bg-white"
           />
           {errors.presentacion ? (
             <span className="block text-xs text-red-600">
@@ -219,7 +210,7 @@ export function ProductForm({
             onChange={(event) =>
               updateField("tipo_cafe", event.target.value as TipoCafe)
             }
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-stone-50 px-3 py-2.5 text-sm font-normal text-stone-950 outline-none transition-colors focus:border-amber-700 focus:bg-white"
           >
             {tiposCafe.map((tipo) => (
               <option key={tipo} value={tipo}>
@@ -240,7 +231,7 @@ export function ProductForm({
             type="url"
             value={formData.imagen_url}
             onChange={(event) => updateField("imagen_url", event.target.value)}
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-stone-50 px-3 py-2.5 text-sm font-normal text-stone-950 outline-none transition-colors focus:border-amber-700 focus:bg-white"
           />
         </label>
 
@@ -250,11 +241,11 @@ export function ProductForm({
             value={formData.descripcion}
             onChange={(event) => updateField("descripcion", event.target.value)}
             rows={4}
-            className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-normal text-stone-950"
+            className="w-full rounded-md border border-stone-300 bg-stone-50 px-3 py-2.5 text-sm font-normal text-stone-950 outline-none transition-colors focus:border-amber-700 focus:bg-white"
           />
         </label>
 
-        <label className="flex items-center gap-3 text-sm font-medium text-stone-700">
+        <label className="flex items-center gap-3 rounded-lg border border-stone-200 bg-stone-50 p-4 text-sm font-medium text-stone-700">
           <input
             type="checkbox"
             checked={formData.activo}
@@ -264,7 +255,7 @@ export function ProductForm({
           Activo
         </label>
 
-        <label className="flex items-center gap-3 text-sm font-medium text-stone-700">
+        <label className="flex items-center gap-3 rounded-lg border border-stone-200 bg-stone-50 p-4 text-sm font-medium text-stone-700">
           <input
             type="checkbox"
             checked={formData.destacado}
@@ -275,13 +266,28 @@ export function ProductForm({
         </label>
       </div>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="mt-6 w-full rounded-full bg-amber-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-amber-800 disabled:cursor-not-allowed disabled:bg-stone-300"
-      >
-        {isSubmitting ? "Guardando..." : producto ? "Guardar cambios" : "Crear producto"}
-      </button>
+      <div className="mt-6 flex flex-col-reverse gap-3 border-t border-stone-100 pt-5 sm:flex-row sm:justify-end">
+        {producto ? (
+          <button
+            type="button"
+            onClick={onCancelEdit}
+            className="rounded-full border border-stone-300 px-6 py-3 text-sm font-semibold text-stone-700 hover:border-amber-700 hover:text-amber-800"
+          >
+            Cancelar
+          </button>
+        ) : null}
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="rounded-full bg-amber-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-amber-800 disabled:cursor-not-allowed disabled:bg-stone-300"
+        >
+          {isSubmitting
+            ? "Guardando..."
+            : producto
+              ? "Guardar cambios"
+              : "Crear producto"}
+        </button>
+      </div>
     </form>
   );
 }

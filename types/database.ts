@@ -8,8 +8,6 @@ export type PedidoEstado =
 export type TipoCafe =
   | "grano"
   | "molido"
-  | "bebida"
-  | "postre"
   | "otro";
 
 export type Categoria = {
@@ -38,6 +36,18 @@ export type Producto = {
 
 export type ProductoConCategoria = Producto & {
   categorias?: Pick<Categoria, "id" | "nombre"> | null;
+};
+
+export type ProductoFormData = {
+  categoria_id: string;
+  nombre: string;
+  descripcion: string;
+  precio: string;
+  presentacion: string;
+  tipo_cafe: TipoCafe;
+  imagen_url: string;
+  activo: boolean;
+  destacado: boolean;
 };
 
 export type Pedido = {

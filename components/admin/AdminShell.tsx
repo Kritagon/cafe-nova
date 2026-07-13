@@ -86,6 +86,12 @@ export function AdminShell({ children }: AdminShellProps) {
             >
               Pedidos
             </Link>
+            <Link
+              href="/admin/productos"
+              className="text-sm font-medium text-stone-700 hover:text-amber-700"
+            >
+              Productos
+            </Link>
             <button
               type="button"
               onClick={handleSignOut}

@@ -20,6 +20,8 @@ type ProductFormProps = {
 type ProductFormErrors = Partial<Record<keyof ProductoFormData, string>>;
 
 const tiposCafe: TipoCafe[] = ["molido", "grano", "otro"];
+const imagenErrorMessage =
+  "La imagen debe ser una URL valida o una ruta interna como /images/products/archivo.png.";
 
 const initialFormData: ProductoFormData = {
   categoria_id: "",
@@ -56,6 +58,32 @@ function getInitialFormData(
     activo: producto.activo,
     destacado: producto.destacado,
   };
+}
+
+function isValidImageUrl(value: string) {
+  const trimmedValue = value.trim();
+
+  if (!trimmedValue) {
+    return true;
+  }
+
+  if (trimmedValue.startsWith("/images/")) {
+    return true;
+  }
+
+  if (
+    trimmedValue.startsWith("http://") ||
+    trimmedValue.startsWith("https://")
+  ) {
+    try {
+      new URL(trimmedValue);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  return false;
 }
 
 export function ProductForm({
@@ -100,6 +128,10 @@ export function ProductForm({
 
     if (!tiposCafe.includes(formData.tipo_cafe)) {
       nextErrors.tipo_cafe = "Selecciona un tipo de cafe valido.";
+    }
+
+    if (!isValidImageUrl(formData.imagen_url)) {
+      nextErrors.imagen_url = imagenErrorMessage;
     }
 
     setErrors(nextErrors);
@@ -228,11 +260,17 @@ export function ProductForm({
         <label className="space-y-2 text-sm font-medium text-stone-700">
           Imagen URL
           <input
-            type="url"
+            type="text"
             value={formData.imagen_url}
             onChange={(event) => updateField("imagen_url", event.target.value)}
+            placeholder="/images/products/cafe-nova-molido-250g.png"
             className="w-full rounded-md border border-stone-300 bg-stone-50 px-3 py-2.5 text-sm font-normal text-stone-950 outline-none transition-colors focus:border-amber-700 focus:bg-white"
           />
+          {errors.imagen_url ? (
+            <span className="block text-xs text-red-600">
+              {errors.imagen_url}
+            </span>
+          ) : null}
         </label>
 
         <label className="space-y-2 text-sm font-medium text-stone-700 md:col-span-2">

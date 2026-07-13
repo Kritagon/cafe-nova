@@ -4,7 +4,6 @@ import {
   Leaf,
   PackageCheck,
   Send,
-  ShieldCheck,
   Sparkles,
   Star,
   Truck,
@@ -165,19 +164,6 @@ export default async function Home() {
                 priority
                 className="aspect-[4/4.2] w-full rounded-[1.5rem] object-cover"
               />
-            </div>
-            <div className="absolute -bottom-5 left-6 right-6 rounded-2xl border border-amber-900/10 bg-white/95 p-5 shadow-xl backdrop-blur">
-              <div className="flex items-center gap-3">
-                <ShieldCheck className="h-9 w-9 rounded-full bg-amber-100 p-2 text-amber-900" />
-                <div>
-                  <p className="font-bold text-[#2a170f]">
-                    Pedido confirmado manualmente
-                  </p>
-                  <p className="text-sm text-stone-600">
-                    Sin cobros en linea. Coordinamos disponibilidad y entrega.
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         </div>

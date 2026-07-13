@@ -4,6 +4,14 @@ Café Nova es una aplicación web construida con Next.js, TypeScript, Tailwind C
 
 El proyecto está pensado como una entrega académica con enfoque profesional: combina sitio público, flujo real de pedidos, autenticación administrativa, panel de gestión, reportes básicos y documentación técnica para facilitar revisión, mantenimiento y despliegue futuro.
 
+## Demo en producción
+
+El MVP de Café Nova está desplegado y validado en Vercel:
+
+```text
+https://cafe-nova-beta.vercel.app/
+```
+
 ## Objetivo
 
 - Presentar una experiencia pública cálida y comercial para Café Nova.
@@ -206,9 +214,14 @@ Pasos generales:
 
 El proyecto cuenta con sitio público rediseñado, catálogo, flujo de pedido, integración con Supabase, RPC de creación de pedidos, portal administrativo, dashboard, administración de pedidos, productos y categorías, RLS activo y documentación base.
 
+El MVP ya fue desplegado y validado en Vercel en:
+
+```text
+https://cafe-nova-beta.vercel.app/
+```
+
 ## Roadmap futuro
 
-- Despliegue en Vercel.
 - Pruebas end-to-end.
 - Mejoras de accesibilidad.
 - Carga de imágenes con Supabase Storage.

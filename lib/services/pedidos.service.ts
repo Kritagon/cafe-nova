@@ -1,5 +1,10 @@
 import { supabase } from "@/lib/supabase/client";
-import type { CrearPedidoInput, CrearPedidoResult } from "@/types/database";
+import type {
+  CrearPedidoInput,
+  CrearPedidoResult,
+  PedidoAdmin,
+  PedidoEstado,
+} from "@/types/database";
 
 type CrearPedidoPublicoResponse = {
   pedido_id: number;
@@ -50,4 +55,41 @@ export async function crearPedido({
     codigo_pedido: pedido.codigo_pedido,
     total_estimado: Number(pedido.total_estimado),
   };
+}
+
+export async function getPedidosAdmin(): Promise<PedidoAdmin[]> {
+  const { data, error } = await supabase
+    .from("pedidos")
+    .select(
+      `
+        id,
+        codigo_pedido,
+        nombre_cliente,
+        telefono,
+        estado,
+        total_estimado,
+        created_at
+      `,
+    )
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw new Error(`No se pudieron consultar los pedidos: ${error.message}`);
+  }
+
+  return (data ?? []) as PedidoAdmin[];
+}
+
+export async function actualizarEstadoPedido(
+  pedidoId: number,
+  estado: PedidoEstado,
+) {
+  const { error } = await supabase
+    .from("pedidos")
+    .update({ estado })
+    .eq("id", pedidoId);
+
+  if (error) {
+    throw new Error(`No se pudo actualizar el pedido: ${error.message}`);
+  }
 }

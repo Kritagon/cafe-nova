@@ -41,7 +41,7 @@ export type ProductoConCategoria = Producto & {
 };
 
 export type Pedido = {
-  id: string;
+  id: number;
   codigo_pedido: string | null;
   nombre_cliente: string;
   telefono: string;
@@ -54,9 +54,20 @@ export type Pedido = {
   updated_at: string;
 };
 
+export type PedidoAdmin = Pick<
+  Pedido,
+  | "id"
+  | "codigo_pedido"
+  | "nombre_cliente"
+  | "telefono"
+  | "estado"
+  | "total_estimado"
+  | "created_at"
+>;
+
 export type PedidoDetalle = {
-  id: string;
-  pedido_id: string;
+  id: number;
+  pedido_id: number;
   producto_id: string | null;
   nombre_producto: string;
   precio_unitario: number;

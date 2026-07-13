@@ -124,14 +124,14 @@ export default async function Home() {
     <main className="min-h-screen bg-[#f8efe1] text-[#2a170f]">
       <PublicHeader />
 
-      <section className="relative overflow-hidden bg-[#f8efe1] px-6">
-        <div className="absolute inset-x-0 top-0 h-40 bg-[#2a170f]" />
-        <div className="relative mx-auto grid min-h-[calc(100vh-5rem)] w-full max-w-7xl items-center gap-12 py-14 lg:grid-cols-[0.95fr_1.05fr] lg:py-20">
+      <section className="relative bg-[#f8efe1] px-6">
+          <div className="absolute inset-x-0 top-0 hidden h-40 bg-[#2a170f] lg:block" />
+          <div className="relative mx-auto grid w-full max-w-7xl gap-12 py-12 sm:py-16 lg:min-h-[calc(100vh-5rem)] lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:py-20">
           <div className="z-10 max-w-2xl">
             <p className="text-sm font-bold uppercase tracking-[0.28em] text-amber-700">
               Cafe artesanal | Costa Rica
             </p>
-            <h1 className="mt-5 text-5xl font-black leading-[0.95] tracking-tight text-[#2a170f] md:text-7xl">
+            <h1 className="mt-5 break-words text-4xl font-black leading-tight tracking-tight text-[#2a170f] sm:text-5xl md:text-6xl lg:text-7xl lg:leading-[0.95]">
               Cafe artesanal para disfrutar cada momento.
             </h1>
             <p className="mt-6 text-lg leading-8 text-stone-700 md:text-xl">

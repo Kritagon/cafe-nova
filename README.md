@@ -1,78 +1,113 @@
-# Cafe Nova
+# Café Nova
 
-Cafe Nova es una aplicacion web para gestionar el catalogo publico y el flujo de pedidos de una cafeteria. El proyecto combina una experiencia publica simple para clientes con un portal administrativo para operar pedidos, productos, categorias y reportes basicos.
+Café Nova es una aplicación web construida con Next.js, TypeScript, Tailwind CSS y Supabase para presentar una marca de café artesanal, gestionar un catálogo público y operar solicitudes de pedido desde un portal administrativo.
 
-## Objetivos
+El proyecto está pensado como una entrega académica con enfoque profesional: combina sitio público, flujo real de pedidos, autenticación administrativa, panel de gestión, reportes básicos y documentación técnica para facilitar revisión, mantenimiento y despliegue futuro.
 
-- Mostrar un catalogo publico de productos activos.
-- Permitir que clientes creen solicitudes de pedido sin login.
-- Registrar pedidos de forma segura en Supabase mediante una RPC publica controlada.
-- Entregar un portal administrativo privado para revisar pedidos y mantener catalogo.
-- Mantener una base clara para publicar en Vercel y continuar el desarrollo.
+## Objetivo
 
-## Stack tecnologico
+- Presentar una experiencia pública cálida y comercial para Café Nova.
+- Mostrar productos activos y destacados usando datos reales desde Supabase.
+- Permitir solicitudes de pedido sin pagos en línea.
+- Registrar pedidos mediante una RPC segura.
+- Administrar pedidos, productos y categorías desde un portal privado.
+- Mantener una base clara para publicación en Vercel y evolución del proyecto.
+
+## Stack tecnológico
 
 - Next.js
+- React
 - TypeScript
 - Tailwind CSS
-- Supabase
+- Supabase Database
 - Supabase Auth
-- Supabase RLS
+- Supabase Row Level Security
+- Supabase RPC
 - Recharts
 - Lucide React
 - Vercel
 - GitHub
 
-## Funcionalidades publicas
+## Funcionalidades del sitio público
 
-- Pagina principal publica.
-- Catalogo publico en `/catalogo`.
-- Filtro por categorias activas.
-- Tarjetas de producto con nombre, descripcion, precio, presentacion, tipo de cafe, categoria e imagen opcional.
-- Flujo de pedido publico.
-- Resumen de pedido con cantidades, subtotales y total estimado.
-- Formulario de cliente con validaciones de nombre, telefono y correo.
-- Confirmacion visual despues de registrar una solicitud.
+- Landing page pública con branding, hero, historia, valores, productos destacados, beneficios, testimonios y contacto.
+- Catálogo público en `/catalogo`.
+- Filtros por categorías activas.
+- Productos con nombre, descripción, precio, presentación, tipo de café, categoría e imagen.
+- Soporte para imágenes internas desde `public/images`.
+- Flujo público de pedido en `/pedido`.
+- Resumen con cantidades, subtotales y total estimado.
+- Validaciones de formulario para nombre, teléfono y correo.
+- Confirmación visual después de registrar el pedido.
 
-## Portal administrativo
+## Funcionalidades del portal administrativo
 
 - Login administrativo con Supabase Auth.
-- Layout administrativo protegido.
-- Navegacion con enlaces a dashboard, pedidos, productos y categorias.
-- Usuario autenticado visible en el encabezado.
-- Dashboard con KPIs, graficos y filtros por fecha y estado.
-- Administracion de pedidos con filtros, detalle en modal, notas internas y cambio de estado.
-- Administracion de productos con crear, editar, activar/desactivar, destacado e imagen URL.
-- Administracion de categorias con crear, editar y activar/desactivar.
+- Layout privado con navegación, íconos y usuario autenticado.
+- Dashboard con KPIs, gráficos y filtros.
+- Administración de pedidos con filtros.
+- Modal de detalle de pedido.
+- Cambio de estado desde el detalle.
+- Notas administrativas internas.
+- Administración de productos: crear, editar, activar/desactivar, destacar y asignar imagen.
+- Administración de categorías: crear, editar y activar/desactivar.
+- Cierre de sesión.
 
 ## Arquitectura general
 
-- `app/`: rutas publicas y administrativas de Next.js.
-- `components/public/`: componentes del sitio publico.
+- `app/`: rutas públicas y administrativas de Next.js.
+- `components/public/`: componentes del sitio público.
 - `components/admin/`: componentes del portal administrativo.
 - `components/shared/`: espacio para componentes reutilizables.
 - `lib/supabase/`: cliente de Supabase.
 - `lib/services/`: servicios de acceso a datos por dominio.
 - `lib/utils/`: utilidades generales.
 - `types/`: tipos TypeScript compartidos.
-- `docs/`: documentacion tecnica y operativa.
-- `docs/sql/`: scripts SQL documentales del proyecto.
+- `public/images/`: logos, branding, hero e imágenes de productos.
+- `docs/`: documentación técnica y operativa.
+- `docs/sql/`: scripts SQL documentales.
 
 ## Modelo de datos resumido
 
-- `categorias`: categorias del catalogo, con nombre, descripcion y estado activo.
-- `productos`: productos asociados a categorias, con precio, presentacion, tipo de cafe, imagen URL, activo y destacado.
-- `pedidos`: encabezado de solicitudes de pedido, datos del cliente, estado, total estimado y notas administrativas.
-- `pedido_detalle`: productos incluidos en cada pedido, cantidad, precio unitario y subtotal.
-- `profiles`: perfiles administrativos vinculados a Supabase Auth.
+- `categorias`: categorías del catálogo, con nombre, descripción y estado activo.
+- `productos`: productos asociados a categorías, con precio, presentación, tipo de café, imagen, activo y destacado.
+- `pedidos`: encabezado del pedido, datos del cliente, estado, total estimado y notas administrativas.
+- `pedido_detalle`: productos incluidos en cada pedido, con cantidad, precio unitario y subtotal.
+- `profiles`: perfiles administrativos vinculados a usuarios de Supabase Auth.
 
 ## Seguridad
 
-Supabase tiene Row Level Security activo. La lectura publica se limita a productos y categorias activas. Las operaciones administrativas dependen de una sesion autenticada y de politicas RLS basadas en perfiles administradores.
+Supabase tiene Row Level Security activo. El sitio público solo debe leer productos y categorías activas. Las rutas administrativas requieren sesión autenticada y las políticas RLS validan que el usuario tenga perfil administrativo activo.
 
-El registro publico de pedidos usa la RPC `crear_pedido_publico`, evitando insertar manualmente desde el cliente en `pedidos` y `pedido_detalle`. La RPC recibe datos del cliente e items con `producto_id` y `cantidad`, calcula totales y crea el pedido con estado inicial `pendiente`.
+El proyecto usa la función `is_admin()` en Supabase para centralizar la validación administrativa en políticas RLS.
 
-## Instalacion local
+## RPC `crear_pedido_publico`
+
+El flujo público de pedido no inserta directamente en `pedidos` ni en `pedido_detalle`. En su lugar llama a la RPC:
+
+```text
+crear_pedido_publico
+```
+
+La RPC recibe datos del cliente e items con `producto_id` y `cantidad`, calcula el total estimado, genera el código del pedido, guarda el estado inicial `pendiente` y registra el detalle.
+
+## Imágenes y assets
+
+Los assets visuales viven en `public/images/`:
+
+- `public/images/branding/`: logos y monograma.
+- `public/images/hero/`: imagen principal del hero.
+- `public/images/products/`: imágenes de productos.
+
+En Next.js se referencian como rutas públicas:
+
+```text
+/images/products/cafe-nova-molido-250g.png
+```
+
+El campo `imagen_url` de productos acepta rutas internas como `/images/...`, URLs externas o valor vacío.
+
+## Instalación local
 
 1. Instalar dependencias:
 
@@ -80,13 +115,13 @@ El registro publico de pedidos usa la RPC `crear_pedido_publico`, evitando inser
 npm install
 ```
 
-2. Crear `.env.local` a partir de `.env.local.example`:
+2. Crear `.env.local` usando `.env.local.example` como referencia:
 
 ```bash
 cp .env.local.example .env.local
 ```
 
-3. Completar las variables publicas de Supabase:
+3. Configurar variables públicas de Supabase:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=
@@ -99,13 +134,36 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 npm run dev
 ```
 
-5. Abrir la aplicacion:
+5. Abrir:
 
 ```text
 http://localhost:3000
 ```
 
-## Scripts disponibles
+## Configuración de Supabase
+
+Para preparar la base de datos, usar como referencia principal:
+
+```text
+docs/sql/00-cafe-nova-full-setup.sql
+```
+
+Ese script maestro documenta el esquema, funciones, políticas RLS y datos base necesarios para levantar el proyecto.
+
+## Usuario administrador
+
+El administrador se gestiona con Supabase Auth y la tabla `profiles`.
+
+Flujo general:
+
+1. Crear el usuario en Supabase Auth.
+2. Crear o verificar su registro en `profiles`.
+3. Confirmar que tenga `rol = 'admin'`.
+4. Confirmar que tenga `activo = true`.
+
+No se deben guardar credenciales reales en el repositorio.
+
+## Comandos principales
 
 ```bash
 npm run dev
@@ -114,37 +172,55 @@ npm run start
 npm run lint
 ```
 
-Para validar TypeScript:
+Validación TypeScript:
 
 ```bash
 npx tsc --noEmit
 ```
 
-## Documentacion SQL
+## Despliegue futuro en Vercel
 
-Los scripts documentales viven en `docs/sql/`:
+Pasos generales:
 
-- `01-schema.sql`: esquema base.
-- `02-seed-data.sql`: datos iniciales.
-- `03-rls-policies.sql`: politicas RLS.
-- `04-rpc-crear-pedido-publico.sql`: RPC de creacion de pedidos publicos.
-- `05-fix-rls-productos-admin.sql`: ajuste documental para administracion de productos.
-- `rls-inicial.sql`: referencia inicial de politicas.
+1. Conectar el repositorio de GitHub en Vercel.
+2. Configurar las variables de entorno:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+3. Ejecutar el despliegue.
+4. Validar rutas públicas:
+   - `/`
+   - `/catalogo`
+   - `/pedido`
+5. Validar login administrativo:
+   - `/admin/login`
+   - `/admin/dashboard`
+6. Confirmar que la URL y anon key correspondan al proyecto correcto de Supabase.
+
+## Documentación
+
+- `docs/architecture.md`: visión técnica del proyecto.
+- `docs/qa-checklist.md`: checklist manual de pruebas.
+- `docs/sql/00-cafe-nova-full-setup.sql`: script maestro de base de datos.
 
 ## Estado actual
 
-El proyecto cuenta con sitio publico, catalogo, flujo de pedidos, portal administrativo, dashboard, filtros, pedidos con detalle y notas, administracion de productos y administracion de categorias. La conexion con Supabase y RLS ya esta integrada.
+El proyecto cuenta con sitio público rediseñado, catálogo, flujo de pedido, integración con Supabase, RPC de creación de pedidos, portal administrativo, dashboard, administración de pedidos, productos y categorías, RLS activo y documentación base.
 
 ## Roadmap futuro
 
-- Publicacion en Vercel.
-- Mejoras de accesibilidad y pruebas end-to-end.
-- Gestion de imagenes con Supabase Storage.
-- CRUD administrativo mas avanzado para productos y categorias.
-- Reportes administrativos mas detallados.
-- Notificaciones o seguimiento operativo de pedidos.
-- Mejoras de auditoria para cambios de estado.
+- Despliegue en Vercel.
+- Pruebas end-to-end.
+- Mejoras de accesibilidad.
+- Carga de imágenes con Supabase Storage.
+- Historial/auditoría de cambios de estado.
+- Notificaciones para nuevos pedidos.
+- Reportes administrativos más avanzados.
 
-## Aprendizaje del proyecto
+## Aprendizajes principales
 
-Cafe Nova sirve como base practica para construir una aplicacion real con Next.js, TypeScript y Supabase. El proyecto cubre patrones utiles como rutas publicas y privadas, RLS, RPC para operaciones controladas, servicios tipados, componentes de UI reutilizables y preparacion para despliegue en Vercel.
+- Uso de Next.js con rutas públicas y privadas.
+- Integración de Supabase Auth y RLS.
+- Diseño de RPC para operaciones públicas controladas.
+- Separación de servicios por dominio.
+- Manejo de estado local para flujos simples de pedido.
+- Construcción de interfaces públicas y administrativas con una misma base técnica.

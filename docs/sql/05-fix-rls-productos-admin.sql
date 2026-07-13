@@ -111,3 +111,4 @@ on public.categorias
 for delete
 to authenticated
 using (public.is_admin());
+

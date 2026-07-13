@@ -1,121 +1,155 @@
 # Checklist QA manual
 
-Este checklist ayuda a validar manualmente Cafe Nova antes de hacer commit, publicar o entregar una version.
+Usar este checklist antes de hacer commit, entregar una versión académica o preparar despliegue.
 
-## Pagina principal
+## Sitio público
 
-- [ ] La ruta `/` carga sin errores.
-- [ ] Se muestra el nombre Cafe Nova.
-- [ ] Hay una frase principal y texto de presentacion.
-- [ ] Existe un enlace visible hacia `/catalogo`.
-- [ ] La seccion de productos destacados no rompe si no hay productos.
+### Home
 
-## Catalogo publico
+- [ ] `/` carga sin errores.
+- [ ] El header público muestra la marca Café Nova.
+- [ ] La navegación apunta a Inicio, Historia, Productos, Beneficios, Pedido y Contacto.
+- [ ] El hero muestra texto principal, botones e imagen.
+- [ ] Los botones `Ver catálogo` y `Hacer pedido` funcionan.
+- [ ] La sección de historia se visualiza correctamente.
+- [ ] Misión, visión y valores se muestran sin romper responsive.
+- [ ] Productos destacados cargan desde Supabase.
+- [ ] Si no hay destacados, se muestran productos activos o un estado amable.
+- [ ] Testimonios y contacto se muestran correctamente.
+- [ ] El footer se ve bien en escritorio y móvil.
 
-- [ ] La ruta `/catalogo` carga productos activos desde Supabase.
+### Navegación
+
+- [ ] Desde el header se puede volver al inicio.
+- [ ] Los enlaces hacia `/catalogo` funcionan.
+- [ ] Los enlaces hacia `/pedido` funcionan.
+- [ ] Los anchors internos de la landing no rompen la navegación.
+
+### Catálogo
+
+- [ ] `/catalogo` carga sin errores.
+- [ ] Se muestran productos activos desde Supabase.
 - [ ] Los productos inactivos no aparecen.
-- [ ] Cada producto muestra nombre, descripcion, precio, presentacion y tipo de cafe.
-- [ ] La categoria se muestra cuando existe.
-- [ ] La imagen se muestra si `imagen_url` existe.
-- [ ] Se muestra un placeholder visual si no hay imagen.
-- [ ] El diseno responde bien en escritorio y movil.
+- [ ] Las categorías activas aparecen en filtros.
+- [ ] Las categorías inactivas no aparecen.
+- [ ] El filtro `Todos` muestra todos los productos activos.
+- [ ] Cada filtro de categoría actualiza la lista.
+- [ ] Las tarjetas muestran nombre, descripción, precio, presentación y tipo de café.
+- [ ] Las tarjetas muestran categoría cuando existe.
+- [ ] Las tarjetas usan `imagen_url` si existe.
+- [ ] Las rutas internas `/images/products/...` renderizan correctamente.
+- [ ] El estado vacío se muestra si una categoría no tiene productos.
 
-## Filtro por categorias
+### Pedido público
 
-- [ ] La opcion `Todos` muestra todos los productos activos.
-- [ ] Cada categoria activa aparece como opcion.
-- [ ] Las categorias inactivas no aparecen.
-- [ ] El filtro cambia la lista sin errores visuales.
-
-## Pedido publico
-
-- [ ] Se pueden agregar productos al pedido.
+- [ ] Se puede agregar un producto al pedido.
+- [ ] Se puede incrementar cantidad.
 - [ ] La cantidad no baja de 1.
-- [ ] Se puede modificar cantidad desde el resumen.
 - [ ] Se puede eliminar un producto del resumen.
-- [ ] El subtotal y total estimado se calculan correctamente.
-- [ ] No se puede enviar un pedido vacio.
+- [ ] El subtotal se calcula correctamente.
+- [ ] El total estimado se calcula correctamente.
+- [ ] No se puede enviar un pedido vacío.
 
-## Validaciones del formulario
+### Formulario y validaciones
 
 - [ ] `nombre_cliente` es obligatorio.
-- [ ] `nombre_cliente` exige al menos 2 caracteres despues de trim.
+- [ ] `nombre_cliente` exige mínimo 2 caracteres después de trim.
 - [ ] `telefono` es obligatorio.
-- [ ] `telefono` acepta exactamente 8 digitos.
-- [ ] `telefono` rechaza letras, espacios, guiones y simbolos.
+- [ ] `telefono` acepta exactamente 8 dígitos.
+- [ ] `telefono` rechaza letras, guiones, espacios y símbolos.
 - [ ] `correo` es opcional.
-- [ ] `correo` rechaza formato invalido si se escribe.
-- [ ] No se llama a Supabase cuando hay errores de validacion.
-- [ ] Un pedido valido se registra correctamente.
+- [ ] `correo` valida formato si se escribe.
+- [ ] Dirección es opcional.
+- [ ] Comentarios es opcional.
+- [ ] No se llama a Supabase si hay errores.
+- [ ] Un pedido válido muestra confirmación.
+- [ ] El pedido válido queda registrado en Supabase.
 
-## Login administrativo
+## Admin
+
+### Login y logout
 
 - [ ] `/admin/login` carga correctamente.
-- [ ] Un usuario invalido muestra error claro.
-- [ ] Un administrador valido inicia sesion.
-- [ ] Un usuario no autenticado no puede entrar a rutas admin.
-- [ ] El cierre de sesion redirige a `/admin/login`.
+- [ ] Credenciales inválidas muestran error claro.
+- [ ] Un administrador válido inicia sesión.
+- [ ] Las rutas admin redirigen a login si no hay sesión.
+- [ ] El botón de cerrar sesión funciona.
 
-## Dashboard
+### Dashboard
 
-- [ ] `/admin/dashboard` carga con sesion administrativa.
-- [ ] Los KPIs se muestran correctamente.
-- [ ] Los graficos de Recharts se renderizan.
-- [ ] La tabla de ultimos pedidos aparece.
-- [ ] Los filtros no se aplican hasta presionar `Filtrar`.
-- [ ] `Limpiar` devuelve el dashboard a todos los datos.
-- [ ] Fecha desde, fecha hasta y estado afectan KPIs y graficos.
+- [ ] `/admin/dashboard` carga con sesión administrativa.
+- [ ] Los KPIs se muestran.
+- [ ] Los gráficos de Recharts renderizan.
+- [ ] La tabla de últimos pedidos aparece.
+- [ ] Los filtros no se aplican automáticamente.
+- [ ] El botón `Filtrar` actualiza datos.
+- [ ] El botón `Limpiar` restaura filtros.
+- [ ] Fecha desde, fecha hasta y estado afectan los datos.
 
-## Pedidos administrativos
+### Pedidos
 
-- [ ] `/admin/pedidos` muestra pedidos ordenados por fecha descendente.
-- [ ] Los filtros no se aplican automaticamente.
-- [ ] El filtro por estado funciona.
+- [ ] `/admin/pedidos` carga pedidos.
+- [ ] Los pedidos aparecen ordenados por fecha descendente.
 - [ ] El filtro por fecha desde funciona.
 - [ ] El filtro por fecha hasta funciona.
-- [ ] La busqueda encuentra por codigo, cliente, telefono o correo.
-- [ ] `Limpiar` restaura la lista completa.
-- [ ] La tabla muestra codigo, cliente, telefono, estado, total, fecha y accion.
+- [ ] El filtro por estado funciona.
+- [ ] La búsqueda encuentra por código, cliente, teléfono o correo.
+- [ ] La tabla muestra código, cliente, teléfono, estado, total, fecha y acción.
 - [ ] El estado se muestra como badge.
-- [ ] No existe selector de estado directamente en la tabla.
+- [ ] No hay selector de estado directo en la tabla.
 
-## Detalle de pedido
+### Detalle de pedido
 
-- [ ] `Ver detalle` abre el modal del pedido.
+- [ ] `Ver detalle` abre el modal.
 - [ ] El modal muestra datos del cliente.
-- [ ] El modal muestra direccion y comentarios del cliente.
+- [ ] El modal muestra dirección y comentarios.
 - [ ] El modal muestra productos, cantidades, precios y subtotales.
 - [ ] El modal permite cambiar estado.
 - [ ] El modal permite editar `notas_admin`.
 - [ ] `Guardar cambios` actualiza estado y notas.
-- [ ] La tabla se refresca y el badge muestra el nuevo estado.
+- [ ] La tabla refresca el badge de estado.
 
-## Productos administrativos
+### Productos
 
 - [ ] `/admin/productos` carga productos activos e inactivos.
-- [ ] Se puede crear un producto.
-- [ ] Se validan nombre, categoria, precio, presentacion y tipo de cafe.
-- [ ] Se puede editar un producto.
-- [ ] Se puede activar y desactivar un producto.
-- [ ] Un producto inactivo deja de aparecer en el catalogo publico.
-- [ ] El precio se muestra con formato CRC.
-- [ ] Las categorias activas aparecen en el formulario.
+- [ ] Se puede crear producto.
+- [ ] Se puede editar producto.
+- [ ] Se puede activar/desactivar producto.
+- [ ] Se puede marcar/desmarcar destacado.
+- [ ] Se validan nombre, categoría, precio, presentación y tipo de café.
+- [ ] `imagen_url` permite campo vacío.
+- [ ] `imagen_url` permite URL externa.
+- [ ] `imagen_url` permite ruta interna `/images/products/...`.
+- [ ] Productos inactivos no aparecen en el catálogo público.
 
-## Categorias administrativas
+### Categorías
 
-- [ ] `/admin/categorias` carga categorias activas e inactivas.
-- [ ] Se puede crear una categoria.
-- [ ] Se valida nombre obligatorio y minimo 2 caracteres.
-- [ ] Se puede editar una categoria.
-- [ ] Se puede activar y desactivar una categoria.
-- [ ] Una categoria inactiva deja de aparecer en el filtro publico.
-- [ ] El formulario se abre en modal.
+- [ ] `/admin/categorias` carga categorías activas e inactivas.
+- [ ] Se puede crear categoría.
+- [ ] Se puede editar categoría.
+- [ ] Se puede activar/desactivar categoría.
+- [ ] Se valida nombre obligatorio.
+- [ ] Se valida mínimo 2 caracteres.
+- [ ] Categorías inactivas no aparecen en filtros públicos.
 
-## RLS basico
+## Seguridad
 
-- [ ] La lectura publica solo muestra productos activos.
-- [ ] La lectura publica solo muestra categorias activas.
-- [ ] La RPC `crear_pedido_publico` permite registrar pedidos publicos validos.
-- [ ] Un usuario no autenticado no puede administrar pedidos, productos o categorias.
-- [ ] Un administrador autenticado puede leer y actualizar pedidos.
-- [ ] Un administrador autenticado puede administrar productos y categorias.
+- [ ] `.env.local` no aparece en cambios de Git.
+- [ ] No hay claves reales en README ni docs.
+- [ ] RLS está activo en Supabase.
+- [ ] Existe usuario admin en Supabase Auth.
+- [ ] El usuario admin tiene registro en `profiles`.
+- [ ] El profile admin tiene `rol = 'admin'`.
+- [ ] El profile admin tiene `activo = true`.
+- [ ] Usuarios no autenticados no pueden entrar al admin.
+- [ ] Productos inactivos no son públicos.
+- [ ] Categorías inactivas no son públicas.
+- [ ] La RPC `crear_pedido_publico` registra pedidos públicos válidos.
+
+## SQL y despliegue
+
+- [ ] Existe `docs/sql/00-cafe-nova-full-setup.sql`.
+- [ ] El README indica que el script maestro es el principal.
+- [ ] `.env.local.example` contiene las variables necesarias.
+- [ ] En Vercel se configuran `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+- [ ] Después de desplegar, validar `/`, `/catalogo`, `/pedido` y `/admin/login`.

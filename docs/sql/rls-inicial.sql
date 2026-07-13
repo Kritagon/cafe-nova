@@ -122,3 +122,4 @@ on public.profiles
 for select
 to authenticated
 using (public.is_admin());
+
